@@ -15,6 +15,18 @@ local c_zoom = 2.8
 local c_offset = -0.15
 local isCreatorOpened = false
 
+function dump(o)
+    if type(o) == 'table' then
+       local s = '{ '
+       for k,v in pairs(o) do
+          if type(k) ~= 'number' then k = '"'..k..'"' end
+          s = s .. '['..k..'] = ' .. dump(v) .. ','
+       end
+       return s .. '} '
+    else
+       return tostring(o)
+    end
+ end
 
 function ShowSkinCreator(enable)
 
@@ -135,6 +147,7 @@ RegisterNUICallback('saveClothes', function(data)
 end)
 
 RegisterNUICallback('updateClothes', function(data)
+    print('clothingData', dump(data))
     for k,v in pairs(data) do
 
         if ComponentNumber[k] ~=  tonumber(v) and v ~= nil then
